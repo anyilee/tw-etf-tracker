@@ -15,30 +15,81 @@ import {
   AlertCircle
 } from 'lucide-react';
 
-// --- 靜態基本資料設定庫 ---
-// (保留名稱、配息頻率等不會變動的基本資料)
+// --- 靜態基本資料設定庫 (升級：投顧級別實戰分析) ---
 const etfBaseConfig = [
-  { id: '00401A', name: '摩根台灣鑫收益', company: '摩根', frequency: '月配', months: [1,2,3,4,5,6,7,8,9,10,11,12], listDate: '2026/04', type: '台股', desc: '目前市場唯一主動式月配息ETF。', mockPrice: 15.2, mockPerf: '+1.3%' },
-  { id: '00403A', name: '統一台股升級50', company: '統一', frequency: '季配', months: [1,4,7,10], listDate: '2025/08', type: '台股', desc: '聚焦台灣升級轉型之50大企業。', mockPrice: 18.5, mockPerf: '+23.3%' },
-  { id: '00984A', name: '安聯台灣高息成長', company: '安聯', frequency: '季配', months: [1,4,7,10], listDate: '2025/07', type: '台股', desc: '結合高股息與企業成長雙引擎的主動選股。', mockPrice: 19.1, mockPerf: '+27.3%' },
-  { id: '00989A', name: '摩根大美國領先科技', company: '摩根', frequency: '季配', months: [1,4,7,10], listDate: '2025/10', type: '美股', desc: '投資美國尖端科技巨頭與潛力股。', mockPrice: 16.8, mockPerf: '+12.0%' },
-  { id: '00992A', name: '群益台灣科技創新', company: '群益', frequency: '季配', months: [1,4,7,10], listDate: '2025/12', type: '台股', desc: '主攻台灣半導體與AI創新科技產業。', mockPrice: 17.3, mockPerf: '+15.3%' },
-  { id: '00995A', name: '中信台灣卓越成長', company: '中信', frequency: '季配', months: [1,4,7,10], listDate: '2025/11', type: '台股', desc: '挖掘台灣具備卓越成長動能之企業。', mockPrice: 16.5, mockPerf: '+10.0%' },
-  { id: '00997A', name: '群益美國增長', company: '群益', frequency: '季配', months: [1,4,7,10], listDate: '2026/02', type: '美股', desc: '聚焦美國高成長企業的主動式管理。', mockPrice: 15.5, mockPerf: '+3.3%' },
-  // 💡 把 00980A 改成 0050 測試真實資料抓取
-  { id: '0050', name: '元大台灣50 (測試用)', company: '元大', frequency: '半年配', months: [1,7], listDate: '2003/06', type: '台股', desc: '測試真實資料連線。', mockPrice: 150.0, mockPerf: '+0.0%' },
-  { id: '00982A', name: '群益台灣精選強棒', company: '群益', frequency: '季配', months: [2,5,8,11], listDate: '2025/05', type: '台股', desc: '本土投信首發，靈活操作強勢股。', mockPrice: 21.0, mockPerf: '+40.0%' },
-  { id: '00981A', name: '統一台股增長', company: '統一', frequency: '季配', months: [3,6,9,12], listDate: '2025/05', type: '台股', desc: '明星經理人操盤，上市一年績效稱霸市場。', mockPrice: 28.2, mockPerf: '+88.0%' },
-  { id: '00994A', name: '第一金台股趨勢優選', company: '第一金', frequency: '季配', months: [3,6,9,12], listDate: '2026/01', type: '台股', desc: '順應台股長線趨勢進行優選配置。', mockPrice: 15.3, mockPerf: '+2.0%' },
-  { id: '00996A', name: '兆豐台灣豐收', company: '兆豐', frequency: '季配', months: [0], listDate: '2026/04', type: '台股', desc: '首創期貨避險機制，月份依各季公告為主。', mockPrice: 15.0, mockPerf: '--' },
-  { id: '00991A', name: '復華台灣未來50', company: '復華', frequency: '半年配', months: [6,12], listDate: '2025/12', type: '台股', desc: '著眼台灣未來50大潛力企業。', mockPrice: 16.8, mockPerf: '+12.0%' },
-  { id: '00983A', name: '中信ARK創新', company: '中信', frequency: '年配', months: [12], listDate: '2025/10', type: '海外', desc: '引進ARK木頭姐策略之主動ETF。', mockPrice: 15.8, mockPerf: '+5.3%' },
-  { id: '00985A', name: '野村台灣50', company: '野村', frequency: '年配', months: [12], listDate: '2025/07', type: '台股', desc: '主動操作版本的台灣50大權值股。', mockPrice: 19.5, mockPerf: '+30.0%' },
-  { id: '00986A', name: '台新全球龍頭成長', company: '台新', frequency: '年配', months: [11], listDate: '2025/11', type: '海外', desc: '投資全球各產業龍頭企業。', mockPrice: 16.2, mockPerf: '+8.0%' },
-  { id: '00987A', name: '台新台灣優勢成長', company: '台新', frequency: '年配', months: [11], listDate: '2025/10', type: '台股', desc: '發掘台灣具備全球競爭優勢的成長股。', mockPrice: 16.0, mockPerf: '+6.6%' },
-  { id: '00988A', name: '統一全球創新', company: '統一', frequency: '年配', months: [10], listDate: '2025/12', type: '海外', desc: '放眼全球創新產業鏈。', mockPrice: 17.5, mockPerf: '+16.6%' },
-  { id: '00993A', name: '安聯台灣主動式', company: '安聯', frequency: '年配', months: [1], listDate: '2026/02', type: '台股', desc: '安聯台股團隊的主動選股精華。', mockPrice: 15.1, mockPerf: '+0.6%' },
-  { id: '00990A', name: '元大全球AI新經濟', company: '元大', frequency: '不配息', months: [], listDate: '2025/09', type: '海外', desc: '不配息滾入再投資，追求AI產業長期複利。', mockPrice: 18.2, mockPerf: '+21.3%' },
+  { 
+    id: '00401A', name: '摩根台灣鑫收益', company: '摩根', frequency: '月配', months: [1,2,3,4,5,6,7,8,9,10,11,12], listDate: '2026/04', type: '台股', mockPrice: 15.2, mockPerf: '+1.3%',
+    analysis: {
+      feature: '市場首檔也是唯一的主動式「月配息」ETF，主打高股息與資本利得雙贏。',
+      suitability: '需要「每個月有現金入帳」來繳房貸、車貸或補貼生活費的退休族及包租公。',
+      risk: '本金過大時，每月配息極易超過 2 萬元門檻，會被扣取 2.11% 二代健保費；且經理人若為追求配息率而買入非成長股，恐賺了股息賠了價差。'
+    }
+  },
+  { 
+    id: '00403A', name: '統一台股升級50', company: '統一', frequency: '季配', months: [1,4,7,10], listDate: '2025/08', type: '台股', mockPrice: 18.5, mockPerf: '+23.3%',
+    analysis: {
+      feature: '聚焦台灣產業升級轉型的 50 大企業，不拘泥於單一產業，機動性強。',
+      suitability: '看好台股整體轉型潛力，不想只單押半導體，希望產業配置較為均衡的穩健型投資人。',
+      risk: '未聚焦單一強勢主題，在極端行情（如 AI 獨強）時，績效可能不如純科技主題基金。'
+    }
+  },
+  { 
+    id: '00984A', name: '安聯台灣高息成長', company: '安聯', frequency: '季配', months: [1,4,7,10], listDate: '2025/07', type: '台股', mockPrice: 19.1, mockPerf: '+27.3%',
+    analysis: {
+      feature: '結合「高股息」與「企業成長」雙引擎，由深耕台股多年的安聯團隊操盤。',
+      suitability: '想要有不錯的配息，但又捨不得放棄台股科技股高成長爆發力的貪心型投資人。',
+      risk: '主動選股的內扣費用可能侵蝕部分高息收益，需長期觀察配息是否來自本金。'
+    }
+  },
+  { 
+    id: '00989A', name: '摩根大美國領先科技', company: '摩根', frequency: '季配', months: [1,4,7,10], listDate: '2025/10', type: '美股', mockPrice: 16.8, mockPerf: '+12.0%',
+    analysis: {
+      feature: '直接用新台幣參與美股科技巨頭與潛力黑馬的輪動，免去換匯麻煩。',
+      suitability: '想投資美股七大巨頭 (Magnificent 7) 且看好 AI 發展，作為資產美元化的衛星配置。',
+      risk: '無匯率避險機制，新台幣強勢時會有匯損風險；且美股科技股波動劇烈。'
+    }
+  },
+  { 
+    id: '00992A', name: '群益台灣科技創新', company: '群益', frequency: '季配', months: [1,4,7,10], listDate: '2025/12', type: '台股', mockPrice: 17.3, mockPerf: '+15.3%',
+    analysis: {
+      feature: '純度極高的台灣科技創新主題，鎖定半導體、AI 伺服器等上游供應鏈。',
+      suitability: '極度看好台灣在 AI 產業链中不可取代的地位，且願意承受較大波動的攻擊型投資人。',
+      risk: '產業過度集中，當遇到科技股庫存調整或外資倒貨時，淨值回檔會非常深。'
+    }
+  },
+  { 
+    id: '00981A', name: '統一台股增長', company: '統一', frequency: '季配', months: [3,6,9,12], listDate: '2025/05', type: '台股', mockPrice: 28.2, mockPerf: '+88.0%',
+    analysis: {
+      feature: '由台股基金常勝軍團隊操盤，展現極強的動能選股與換股操作，目前為市場績效領先者。',
+      suitability: '追求極致資本利得（賺價差），信任明星經理人眼光，不把配息當作首要目標的投資人。',
+      risk: '高報酬伴隨高波動，經理人操作較為積極，若判斷失準可能產生較大回撤。'
+    }
+  },
+  { 
+    id: '00990A', name: '元大全球AI新經濟', company: '元大', frequency: '不配息', months: [], listDate: '2025/09', type: '海外', mockPrice: 18.2, mockPerf: '+21.3%',
+    analysis: {
+      feature: '唯一不配息設計，將所有成份股股利直接滾入淨值，完美避開稅負。',
+      suitability: '有薪水收入不缺現金流的青壯年，目標是放長線釣大魚，追求極致「複利效應」。',
+      risk: '長期沒有現金入帳，在空頭市場時考驗人性，容易抱不住而提早停損。'
+    }
+  },
+  { 
+    id: '0050', name: '元大台灣50 (被動對照組)', company: '元大', frequency: '半年配', months: [1,7], listDate: '2003/06', type: '台股', mockPrice: 150.0, mockPerf: '+0.0%',
+    analysis: {
+      feature: '買下全台灣市值最大的 50 家公司，被動追蹤大盤，為主動式 ETF 的照妖鏡。',
+      suitability: '不想挑選經理人，只相信國運與整體大盤長期向上的被動投資信仰者。',
+      risk: '台積電佔比極高（超過五成），實質上已偏向「台積電與他的快樂夥伴」，受單一個股影響大。'
+    }
+  },
+  // 為了精簡程式碼，其他項目提供預設通用分析
+  ...etfBaseConfig.filter(etf => !['00401A', '00403A', '00984A', '00989A', '00992A', '00981A', '00990A', '0050'].includes(etf.id)).map(etf => ({
+    ...etf,
+    analysis: {
+      feature: etf.desc || '由專業經理人主動選股，力求打敗大盤指標。',
+      suitability: '有意將資金交由專業團隊管理，以進行資產配置的投資人。',
+      risk: '需承擔主動選股失準風險，且內扣經理費通常高於被動型 ETF。'
+    }
+  }))
 ];
 
 // --- 顏色配置邏輯 ---
@@ -172,7 +223,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-                台股主動 ETF 
+              台股主動 ETF 觀測站
             </h1>
             <div className="flex items-center gap-2 text-[10px] text-gray-400 mt-0.5">
               {isLoading ? (
@@ -505,15 +556,33 @@ function DetailModal({ etf, onClose }) {
             )}
           </div>
 
-          {/* 基本資料 */}
+          {/* 基本資料與投顧分析 */}
           <div>
             <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-1.5">
-              <Info className="w-4 h-4 text-indigo-500" /> 基金投資策略
+              <Info className="w-4 h-4 text-indigo-500" /> 投資策略與實戰分析
             </h3>
-            <div className="bg-gradient-to-br from-indigo-50 to-blue-50 p-4 rounded-2xl border border-indigo-100 mb-4 shadow-sm">
-              <p className="text-sm text-indigo-900 font-medium leading-relaxed">
-                {etf.desc}
-              </p>
+            
+            <div className="space-y-3 mb-5">
+              <div className="bg-blue-50/70 p-3.5 rounded-xl border border-blue-100 shadow-sm">
+                <div className="text-xs font-bold text-blue-600 mb-1">🎯 策略亮點</div>
+                <p className="text-sm text-blue-900 leading-relaxed font-medium">
+                  {etf.analysis?.feature || etf.desc}
+                </p>
+              </div>
+
+              <div className="bg-emerald-50/70 p-3.5 rounded-xl border border-emerald-100 shadow-sm">
+                <div className="text-xs font-bold text-emerald-600 mb-1">👤 適合對象</div>
+                <p className="text-sm text-emerald-900 leading-relaxed font-medium">
+                  {etf.analysis?.suitability}
+                </p>
+              </div>
+
+              <div className="bg-red-50/70 p-3.5 rounded-xl border border-red-100 shadow-sm">
+                <div className="text-xs font-bold text-red-600 mb-1">⚠️ 風險與限制</div>
+                <p className="text-sm text-red-900 leading-relaxed font-medium">
+                  {etf.analysis?.risk}
+                </p>
+              </div>
             </div>
             
             <div className="space-y-1 bg-white border border-gray-100 rounded-2xl p-2 shadow-sm">
